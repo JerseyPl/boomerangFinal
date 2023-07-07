@@ -1,5 +1,5 @@
 // Основной файл.
-// Запускает игру.
+// Запускает игру!
 const Game = require('./src/Game');
 const runInteractiveConsole = require('./src/keyboard');
 
