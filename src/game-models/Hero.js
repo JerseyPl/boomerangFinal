@@ -2,7 +2,9 @@
 
 class Hero {
   constructor({ position, position2, boomerang }) {
+
     this.skin = '🚌';
+
     this.position = position;
     this.position2 = position2;
     this.boomerang = boomerang;
@@ -51,8 +53,8 @@ class Hero {
   }
 
   die() {
-    this.skin = '💀';
-    console.log('YOU ARE DEAD!💀');
+    this.skin = "💀";
+    console.log("YOU ARE DEAD!💀");
     process.exit();
   }
 }

@@ -27,17 +27,20 @@ class Boomerang {
   }
 
   reset() {
-    this.position = -1; // Сброс позиции бумеранга
+    this.position = undefined; // Сброс позиции бумеранга
+    this.position2 = undefined;
   }
 
   moveLeft(distance) {
     // Идём влево.
     this.position -= distance;
+    this.position2 -= distance;
   }
 
   moveRight(distance) {
     // Идём вправо.
     this.position += distance;
+    this.position2 += distance;
   }
 }
 
