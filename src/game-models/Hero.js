@@ -2,7 +2,9 @@
 
 class Hero {
   constructor({ position, position2, boomerang }) {
-    this.skin = "🤠";
+
+    this.skin = '🚌';
+
     this.position = position;
     this.position2 = position2;
     this.boomerang = boomerang;
@@ -38,7 +40,15 @@ class Hero {
 
   attack() {
     // Атакуем.
-    this.boomerang.position = this.position + 1; // Устанавливаем начальную позицию бумеранга
+    if (this.position >= 0) {
+      this.boomerang.position = this.position + 1; // Устанавливаем начальную позицию бумеранга
+      this.boomerang.position2 = undefined;
+    }
+    if (this.position2 >= 0){
+      this.boomerang.position2 = this.position2 + 1; // Устанавливаем начальную позицию бумеранга
+      this.boomerang.position = undefined;
+    }
+
     this.boomerang.fly();
   }
 
