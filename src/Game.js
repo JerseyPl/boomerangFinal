@@ -15,12 +15,12 @@ class Game {
   constructor({ trackLength }) {
     this.trackLength = trackLength;
     this.boomerang = new Boomerang(trackLength);
-    this.hero = new Hero({ position: 0, boomerang: this.boomerang });
+    this.hero = new Hero({ position: 0, position2: undefined, boomerang: this.boomerang });
     this.enemy = new Enemy(trackLength);
     this.view = new View(this);
     this.track = [];
     this.track2 = [];
-    this.track3 = [];
+    // this.track3 = [];
     this.regenerateTrack();
   }
 
@@ -29,15 +29,15 @@ class Game {
     // в единую структуру данных
     this.track = new Array(this.trackLength).fill(" ");
     this.track2 = new Array(this.trackLength).fill(" 1");
-    this.track3 = new Array(this.trackLength).fill(" 1");
+    // this.track3 = new Array(this.trackLength).fill(" 1");
 
     this.track[this.hero.position] = this.hero.skin;
     this.track2[this.hero.position] = this.hero.skin;
-    this.track3[this.hero.position] = this.hero.skin;
+    // this.track3[this.hero.position] = this.hero.skin;
 
     this.track[this.enemy.position] = this.enemy.skin;
     this.track2[this.enemy.position] = this.enemy.skin;
-    this.track3[this.enemy.position] = this.enemy.skin;
+    // this.track3[this.enemy.position] = this.enemy.skin;
 
     if (this.hero.position >= 0) {
       this.track[this.hero.position] = this.hero.skin;
@@ -45,9 +45,9 @@ class Game {
     if (this.hero.position2 >= 0) {
       this.track2[this.hero.position2] = this.hero.skin;
     }
-    if (this.hero.position3 >= 0) {
-      this.track3[this.hero.position3] = this.hero.skin;
-    }
+    // if (this.hero.position3 >= 0) {
+    //   this.track3[this.hero.position3] = this.hero.skin;
+    // }
 
     if (
       this.hero.boomerang.position >= 0 &&
@@ -61,12 +61,12 @@ class Game {
     ) {
       this.track2[this.hero.boomerang.position2] = this.hero.boomerang.skin;
     }
-    if (
-      this.hero.boomerang.position3 >= 0 &&
-      this.hero.boomerang.position3 < this.trackLength
-    ) {
-      this.track3[this.hero.boomerang.position3] = this.hero.boomerang.skin;
-    }
+  //   if (
+  //     this.hero.boomerang.position3 >= 0 &&
+  //     this.hero.boomerang.position3 < this.trackLength
+  //   ) {
+  //     this.track3[this.hero.boomerang.position3] = this.hero.boomerang.skin;
+  //   }
   }
 
   check() {
