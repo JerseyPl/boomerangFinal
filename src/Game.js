@@ -1,3 +1,4 @@
+
 const readlineSync = require('readline-sync');
 const Hero = require('./game-models/Hero');
 const Enemy = require('./game-models/Enemy');
@@ -5,6 +6,8 @@ const View = require('./View');
 const Boomerang = require('./game-models/Boomerang');
 const sound = require('play-sound')((opts = {}));
 const { draw, drawAsString } = require('terminal-img');
+const { Score } = require("../db/models");
+
 // Основной класс игры.
 // Тут будут все настройки, проверки, запуск.
 
@@ -66,11 +69,13 @@ class Game {
     }
   }
 
+
   play() {
     console.log(
       await draw('./src/game-models/twisted-metal.png', { width: 210, height: 90 })
     );
     this.hero.name = readlineSync.question('\nВведите свое имя: ');
+
     process.stdin.resume();
     if (!this.hero.name) {
       this.hero.name = 'Водила';

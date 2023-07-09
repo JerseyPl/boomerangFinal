@@ -10,13 +10,13 @@ class View {
     this.game = game;
   }
 
-  render() {
+  async render() {
     
     const yourTeamName = 'Team-AGA';
-
+    
     // Тут всё рисуем.
-    console.log(`${this.game.hero.live}\nТекущий счет: ${this.game.hero.scores}\n Имя: ${this.game.hero.name}`)
     console.clear();
+    console.log(`${this.game.hero.live}\nТекущий счет: ${this.game.hero.scores}\n Имя: ${this.game.hero.name}`)
     console.log('\n\n')
     console.log(this.game.track.join(''));
     console.log(this.game.track2.join(''));

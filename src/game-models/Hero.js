@@ -93,9 +93,9 @@ class Hero {
       console.log(err);
       process.exit();
     })
-    this.skin = "💀";
-    console.log("YOU ARE DEAD!💀");
-    process.exit();
+    // this.skin = "💀";
+    // console.log("YOU ARE DEAD!💀");
+    // process.exit();
   }
 }
 
