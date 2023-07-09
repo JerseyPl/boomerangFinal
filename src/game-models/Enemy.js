@@ -14,6 +14,7 @@ class Enemy {
   moveLeft() {
     // Идём влево.
     this.position -= 1;
+    this.position2 -= 1;
   }
 
   die() {
