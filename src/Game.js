@@ -1,13 +1,9 @@
-// Импортируем всё необходимое.
-// Или можно не импортировать,
-// а передавать все нужные объекты прямо из run.js при инициализации new Game().
 const readlineSync = require("readline-sync");
 const Hero = require("./game-models/Hero");
 const Enemy = require("./game-models/Enemy");
-// const Boomerang = require('./game-models/Boomerang');
 const View = require("./View");
 const Boomerang = require("./game-models/Boomerang");
-
+const sound = require("play-sound")((opts = {}));
 // Основной класс игры.
 // Тут будут все настройки, проверки, запуск.
 
@@ -23,65 +19,48 @@ class Game {
     this.enemy = new Enemy(trackLength);
     this.secEnemy = new Enemy(trackLength);
     this.view = new View(this);
-    this.track = [""];
-    this.track2 = [""];
-    // this.track3 = [];
+    this.track = [];
+    this.track2 = [];
     this.regenerateTrack();
   }
 
   regenerateTrack() {
     // Сборка всего необходимого (герой, враг(и), оружие)
     // в единую структуру данных
-    this.track = new Array(this.trackLength).fill("0");
-    this.track2 = new Array(this.trackLength).fill("0");
-    // this.track3 = new Array(this.trackLength).fill(" 1");
-
+    this.track = new Array(this.trackLength).fill(" ");
     this.track[0] = "⛽";
-    this.track2[0] = "⛽";
-
-    this.track[this.hero.position] = this.hero.skin;
-    this.track2[this.hero.position] = this.hero.skin;
-    // this.track3[this.hero.position] = this.hero.skin;
-
     this.track[this.enemy.position] = this.enemy.skin;
-    this.track2[this.enemy.position] = this.enemy.skin;
-    // this.track3[this.enemy.position] = this.enemy.skin;
-
     if (this.hero.position >= 0) {
       this.track[this.hero.position] = this.hero.skin;
     }
-    if (this.hero.position2 >= 0) {
-      this.track2[this.hero.position2] = this.hero.skin;
-    }
-    // if (this.hero.position3 >= 0) {
-    //   this.track3[this.hero.position3] = this.hero.skin;
-    // }
-
     if (
       this.hero.boomerang.position >= 0 &&
       this.hero.boomerang.position < this.trackLength
     ) {
       this.track[this.hero.boomerang.position] = this.hero.boomerang.skin;
     }
+
+    this.track2 = new Array(this.trackLength).fill(" ");
+    this.track2[0] = "⛽";
+    this.track2[this.secEnemy.position] = this.secEnemy.skin;
+
+    if (this.hero.position2 >= 0) {
+      this.track2[this.hero.position2] = this.hero.skin;
+    }
+
     if (
       this.hero.boomerang.position2 >= 0 &&
       this.hero.boomerang.position2 < this.trackLength
     ) {
       this.track2[this.hero.boomerang.position2] = this.hero.boomerang.skin;
     }
-    //   if (
-    //     this.hero.boomerang.position3 >= 0 &&
-    //     this.hero.boomerang.position3 < this.trackLength
-    //   ) {
-    //     this.track3[this.hero.boomerang.position3] = this.hero.boomerang.skin;
-    //   }
   }
 
   check() {
     if (this.hero.position === this.enemy.position) {
       this.hero.die();
     }
-    if (this.hero.position2 === this.enemy.position2) {
+    if (this.hero.position2 === this.secEnemy.position2) {
       this.hero.die();
     }
   }
@@ -105,29 +84,53 @@ class Game {
       if (this.enemy.position < 0) {
         this.enemy.position = new Enemy(this.trackLength);
       }
-      if (this.enemy.position2 < 0) {
-        this.secEnemy.position = new Enemy(this.trackLength);
+      if (this.secEnemy.position2 < 0) {
+        this.secEnemy = new Enemy(this.trackLength);
       }
 
       this.view.render(this.track);
-    }, 100); // Вы можете настроить частоту обновления игрового цикла
+    }, 90); // Вы можете настроить частоту обновления игрового цикла
   }
 
   handleCollisions() {
     if (
-      this.hero.position === this.enemy.position ||
-      this.hero.position2 === this.enemy.position2
+      (this.hero.position >= this.enemy.position &&
+        this.hero.position - this.enemy.position < 1) ||
+      (this.hero.position2 >= this.secEnemy.position2 &&
+        this.hero.position2 - this.secEnemy.position2 < 1)
     ) {
-      this.hero.die();
+      this.hero.liveCount -= 1;
+      if (this.hero.liveCount === 2) {
+        this.hero.live = "Клоунов осталось : 🤡🤡🤡";
+        sound.play("./src/sounds/avaria.wav");
+      }
+      if (this.hero.liveCount === 1) {
+        this.hero.live = "Клоунов осталось : 🤡💀💀";
+        sound.play("./src/sounds/avaria.wav");
+      }
+      if (this.hero.liveCount === 0) {
+        this.hero.live = "Клоунов осталось : 💀💀💀";
+        this.hero.die();
+        sound.play("./src/sounds/gameover.wav");
+      }
     }
 
-    if (this.boomerang.position === this.enemy.position) {
+    if (this.boomerang.position >= this.enemy.position) {
+      sound.play("./src/sounds/enemyDie.wav");
       this.enemy.die();
+      this.hero.scores += 1;
       // Обнуляем позицию бумеранга после столкновения с врагом
-      // this.boomerang.position = -1;
+      this.boomerang.position = undefined;
       this.enemy = new Enemy(this.trackLength); // Создаем нового врага
+      if (this.boomerang.position2 >= this.secEnemy.position2) {
+        sound.play("./src/sounds/enemyDie.wav");
+        this.secEnemy.die();
+        this.hero.scores += 1;
+        // Обнуляем позицию бумеранга после столкновения с врагом
+        this.boomerang.position2 = undefined;
+        this.secEnemy = new Enemy(this.trackLength); // Создаем нового врага
+      }
     }
   }
 }
-
 module.exports = Game;
