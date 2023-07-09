@@ -13,7 +13,7 @@ class Hero {
   moveLeft() {
     // Идём влево.
     this.position > 0 ? (this.position -= 1) : null;
-    this.position2 > 0 ? (this.position -= 1) : null;
+    this.position2 > 0 ? (this.position2 -= 1) : null;
   }
 
   moveRight() {

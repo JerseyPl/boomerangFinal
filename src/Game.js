@@ -3,7 +3,7 @@ const Hero = require("./game-models/Hero");
 const Enemy = require("./game-models/Enemy");
 const View = require("./View");
 const Boomerang = require("./game-models/Boomerang");
-
+const sound = require("play-sound")((opts = {}));
 // Основной класс игры.
 // Тут будут все настройки, проверки, запуск.
 
@@ -102,30 +102,35 @@ class Game {
       this.hero.liveCount -= 1;
       if (this.hero.liveCount === 2) {
         this.hero.live = "Клоунов осталось : 🤡🤡🤡";
+        sound.play("./src/sounds/avaria.wav");
       }
       if (this.hero.liveCount === 1) {
         this.hero.live = "Клоунов осталось : 🤡💀💀";
+        sound.play("./src/sounds/avaria.wav");
       }
       if (this.hero.liveCount === 0) {
         this.hero.live = "Клоунов осталось : 💀💀💀";
         this.hero.die();
+        sound.play("./src/sounds/gameover.wav");
       }
     }
 
     if (this.boomerang.position >= this.enemy.position) {
+      sound.play("./src/sounds/enemyDie.wav");
       this.enemy.die();
       this.hero.scores += 1;
       // Обнуляем позицию бумеранга после столкновения с врагом
-      this.boomerang.position = undefined
+      this.boomerang.position = undefined;
       this.enemy = new Enemy(this.trackLength); // Создаем нового врага
       if (this.boomerang.position2 >= this.secEnemy.position2) {
+        sound.play("./src/sounds/enemyDie.wav");
         this.secEnemy.die();
         this.hero.scores += 1;
         // Обнуляем позицию бумеранга после столкновения с врагом
-        this.boomerang.position2 = undefined
+        this.boomerang.position2 = undefined;
         this.secEnemy = new Enemy(this.trackLength); // Создаем нового врага
+      }
     }
   }
 }
-
 module.exports = Game;
