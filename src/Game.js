@@ -1,11 +1,13 @@
-const readlineSync = require("readline-sync");
-const Hero = require("./game-models/Hero");
-const Enemy = require("./game-models/Enemy");
-const View = require("./View");
-const Boomerang = require("./game-models/Boomerang");
-const sound = require("play-sound")((opts = {}));
+
+const readlineSync = require('readline-sync');
+const Hero = require('./game-models/Hero');
+const Enemy = require('./game-models/Enemy');
+const View = require('./View');
+const Boomerang = require('./game-models/Boomerang');
+const sound = require('play-sound')((opts = {}));
+const { draw, drawAsString } = require('terminal-img');
 const { Score } = require("../db/models");
-// const { draw, drawAsString } = require('terminal-img');
+
 // Основной класс игры.
 // Тут будут все настройки, проверки, запуск.
 
@@ -29,8 +31,8 @@ class Game {
   regenerateTrack() {
     // Сборка всего необходимого (герой, враг(и), оружие)
     // в единую структуру данных
-    this.track = new Array(this.trackLength).fill(" ");
-    this.track[0] = "⛽";
+    this.track = new Array(this.trackLength).fill(' ');
+    this.track[0] = '⛽';
     this.track[this.enemy.position] = this.enemy.skin;
     if (this.hero.position >= 0) {
       this.track[this.hero.position] = this.hero.skin;
@@ -42,8 +44,8 @@ class Game {
       this.track[this.hero.boomerang.position] = this.hero.boomerang.skin;
     }
 
-    this.track2 = new Array(this.trackLength).fill(" ");
-    this.track2[0] = "⛽";
+    this.track2 = new Array(this.trackLength).fill(' ');
+    this.track2[0] = '⛽';
     this.track2[this.secEnemy.position] = this.secEnemy.skin;
 
     if (this.hero.position2 >= 0) {
@@ -67,12 +69,16 @@ class Game {
     }
   }
 
-  async play() {
-    // console.log(await draw('./game-models/photo_2023-07-07_15-10-30.jpg', { width: 80, height: 40 }));
-    this.hero.name = readlineSync.question("\nВведите свое имя: ");
+
+  play() {
+    console.log(
+      await draw('./src/game-models/twisted-metal.png', { width: 210, height: 90 })
+    );
+    this.hero.name = readlineSync.question('\nВведите свое имя: ');
+
     process.stdin.resume();
     if (!this.hero.name) {
-      this.hero.name = "Водила";
+      this.hero.name = 'Водила';
     }
     setInterval(() => {
       // Let's play!
@@ -104,17 +110,17 @@ class Game {
     ) {
       this.hero.liveCount -= 1;
       if (this.hero.liveCount === 2) {
-        this.hero.live = "Твои никчемные жизни: 🤡🤡💀";
-        sound.play("./src/sounds/avaria.wav");
+        this.hero.live = 'Твои никчемные жизни: 🤡🤡💀';
+        sound.play('./src/sounds/avaria.wav');
       }
       if (this.hero.liveCount === 1) {
-        this.hero.live = "Твои никчемные жизни: 🤡💀💀";
-        sound.play("./src/sounds/avaria.wav");
+        this.hero.live = 'Твои никчемные жизни: 🤡💀💀';
+        sound.play('./src/sounds/avaria.wav');
       }
       if (this.hero.liveCount === 0) {
-        this.hero.live = "Твои никчемные жизни: 💀💀💀";
+        this.hero.live = 'Твои никчемные жизни: 💀💀💀';
         this.hero.die();
-        sound.play("./src/sounds/gameover.wav");
+        sound.play('./src/sounds/gameover.wav');
       }
     }
 
@@ -127,7 +133,7 @@ class Game {
       this.enemy = new Enemy(this.trackLength);
     } // Создаем нового врага
     if (this.boomerang.position2 === this.secEnemy.position2) {
-      sound.play("./src/sounds/enemyDie.wav");
+      sound.play('./src/sounds/enemyDie.wav');
       this.secEnemy.die();
       this.hero.scores += 1;
       // Обнуляем позицию бумеранга после столкновения с врагом
