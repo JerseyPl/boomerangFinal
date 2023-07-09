@@ -1,5 +1,5 @@
 // Наш герой.
-const saveInDB = require('../createData');
+// const saveInDB = require('../createData');
 
 class Hero {
   constructor({
