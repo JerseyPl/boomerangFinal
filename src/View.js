@@ -6,11 +6,13 @@ class View {
   }
 
   render() {
-    const yourTeamName = 'Elbrus';
+    const yourTeamName = 'Team-AGA';
 
     // Тут всё рисуем.
     console.clear();
+    console.log('\n\n')
     console.log(this.game.track.join(''));
+    console.log(this.game.track2.join(''));
     console.log('\n\n');
     console.log(`Created by "${yourTeamName}" with love`);
   }
