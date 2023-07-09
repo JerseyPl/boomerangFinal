@@ -2,7 +2,8 @@
 // Вместо keypress можно использовать и стандартный readline.
 // Главное не используй всё вместе!
 
-const keypress = require('keypress');
+const keypress = require("keypress");
+const Hero = require("./game-models/Hero");
 
 // Управление.
 // Настроим соответствия нажатий на клавиши и действий в игре.
@@ -11,20 +12,22 @@ const keyboard = {
   left: (game) => game.hero.moveLeft(),
   right: (game) => game.hero.moveRight(),
   space: (game) => game.hero.attack(),
+  up: (game) => game.hero.moveUp(),
+  down: (game) => game.hero.moveDown()
 };
 
 // Какая-то функция.
 
 function runInteractiveConsole(game) {
   keypress(process.stdin);
-  process.stdin.on('keypress', (ch, key) => {
+  process.stdin.on("keypress", (ch, key) => {
     if (key) {
       // Вызывает команду, соответствующую нажатой кнопке.
       if (key.name in keyboard) {
         keyboard[key.name](game);
       }
       // Прерывание программы.
-      if (key.ctrl && key.name === 'c') {
+      if (key.ctrl && key.name === "c") {
         process.exit();
       }
     }
