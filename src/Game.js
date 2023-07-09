@@ -82,14 +82,14 @@ class Game {
 
       // Если враг достиг края трека, перемещаем его в начало
       if (this.enemy.position < 0) {
-        this.enemy.position = new Enemy(this.trackLength);
+        this.enemy = new Enemy(this.trackLength);
       }
       if (this.secEnemy.position2 < 0) {
         this.secEnemy = new Enemy(this.trackLength);
       }
 
       this.view.render(this.track);
-    }, 90); // Вы можете настроить частоту обновления игрового цикла
+    }, 120); // Вы можете настроить частоту обновления игрового цикла
   }
 
   handleCollisions() {
@@ -101,35 +101,35 @@ class Game {
     ) {
       this.hero.liveCount -= 1;
       if (this.hero.liveCount === 2) {
-        this.hero.live = "Клоунов осталось : 🤡🤡🤡";
+        this.hero.live = "Твои никчемные жизни: 🤡🤡💀";
         sound.play("./src/sounds/avaria.wav");
       }
       if (this.hero.liveCount === 1) {
-        this.hero.live = "Клоунов осталось : 🤡💀💀";
+        this.hero.live = "Твои никчемные жизни: 🤡💀💀";
         sound.play("./src/sounds/avaria.wav");
       }
       if (this.hero.liveCount === 0) {
-        this.hero.live = "Клоунов осталось : 💀💀💀";
+        this.hero.live = "Твои никчемные жизни: 💀💀💀";
         this.hero.die();
         sound.play("./src/sounds/gameover.wav");
       }
     }
 
     if (this.boomerang.position >= this.enemy.position) {
-      sound.play("./src/sounds/enemyDie.wav");
+      // sound.play("./src/sounds/enemyDie.wav");
       this.enemy.die();
       this.hero.scores += 1;
       // Обнуляем позицию бумеранга после столкновения с врагом
       this.boomerang.position = undefined;
-      this.enemy = new Enemy(this.trackLength); // Создаем нового врага
-      if (this.boomerang.position2 >= this.secEnemy.position2) {
-        sound.play("./src/sounds/enemyDie.wav");
-        this.secEnemy.die();
-        this.hero.scores += 1;
-        // Обнуляем позицию бумеранга после столкновения с врагом
-        this.boomerang.position2 = undefined;
-        this.secEnemy = new Enemy(this.trackLength); // Создаем нового врага
-      }
+      this.enemy = new Enemy(this.trackLength);
+    } // Создаем нового врага
+    if (this.boomerang.position2 === this.secEnemy.position2) {
+      sound.play("./src/sounds/enemyDie.wav");
+      this.secEnemy.die();
+      this.hero.scores += 1;
+      // Обнуляем позицию бумеранга после столкновения с врагом
+      this.boomerang.position2 = undefined;
+      this.secEnemy = new Enemy(this.trackLength); // Создаем нового врага
     }
   }
 }

@@ -13,7 +13,7 @@ const keyboard = {
   right: (game) => game.hero.moveRight(),
   space: (game) => game.hero.attack(),
   up: (game) => game.hero.moveUp(),
-  down: (game) => game.hero.moveDown()
+  down: (game) => game.hero.moveDown(),
 };
 
 // Какая-то функция.
