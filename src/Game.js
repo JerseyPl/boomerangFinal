@@ -4,7 +4,8 @@ const Enemy = require("./game-models/Enemy");
 const View = require("./View");
 const Boomerang = require("./game-models/Boomerang");
 const sound = require("play-sound")((opts = {}));
-const { draw, drawAsString } = require('terminal-img');
+const { Score } = require("../db/models");
+// const { draw, drawAsString } = require('terminal-img');
 // Основной класс игры.
 // Тут будут все настройки, проверки, запуск.
 
@@ -67,7 +68,7 @@ class Game {
   }
 
   async play() {
-    console.log(await draw('./game-models/photo_2023-07-07_15-10-30.jpg', { width: 80, height: 40 }));
+    // console.log(await draw('./game-models/photo_2023-07-07_15-10-30.jpg', { width: 80, height: 40 }));
     this.hero.name = readlineSync.question("\nВведите свое имя: ");
     process.stdin.resume();
     if (!this.hero.name) {
