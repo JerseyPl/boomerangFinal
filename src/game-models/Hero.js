@@ -3,7 +3,7 @@
 
 class Hero {
   constructor({
-    position, position2, boomerang, liveCount = 3, scores = 0,
+    position, position2, boomerang, liveCount = 3, scores = 0,name,
   }) {
     this.skin = '🚌';
     this.position = position;
@@ -11,7 +11,7 @@ class Hero {
     this.boomerang = boomerang;
     this.liveCount = liveCount;
     this.scores = scores;
-    this.name = 'Player';
+    this.name = name;
     this.live = 'Твои никчемные жизни: 🤡🤡🤡';
   }
 

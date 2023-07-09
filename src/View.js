@@ -1,3 +1,8 @@
+const Game = require("./Game");
+const Hero = require("./game-models/Hero");
+const Enemy = require("./game-models/Enemy");
+const Boomerang = require("./game-models/Boomerang");
+
 // Сделаем отдельный класс для отображения игры в консоли.
 
 class View {
@@ -6,9 +11,11 @@ class View {
   }
 
   render() {
+    
     const yourTeamName = 'Team-AGA';
 
     // Тут всё рисуем.
+    console.log(`${this.game.hero.live}\nТекущий счет: ${this.game.hero.scores}\n Имя: ${this.game.hero.name}`)
     console.clear();
     console.log('\n\n')
     console.log(this.game.track.join(''));
