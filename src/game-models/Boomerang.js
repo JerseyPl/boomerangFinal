@@ -7,6 +7,7 @@ class Boomerang {
     this.skin = '🌀';
     this.position = -1;
     this.trackLength = trackLength;
+    this.position2 = undefined
   }
 
   fly() {
