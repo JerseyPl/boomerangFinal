@@ -1,5 +1,6 @@
 // Наш герой.
-// const saveInDB = require('../createData');
+const saveInDB = require('../createData');
+const sound = require('play-sound')((opts = {}));
 
 class Hero {
   constructor({

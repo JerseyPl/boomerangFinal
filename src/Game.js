@@ -70,11 +70,10 @@ class Game {
   }
 
 
-  play() {
-    console.log(
-      await draw('./src/game-models/twisted-metal.png', { width: 210, height: 90 })
-    );
-    this.hero.name = readlineSync.question('\nВведите свое имя: ');
+  async play() {
+    await draw('./src/game-models/twisted-metal.png', { width: 150, height: 70 })
+    // process.stdin.pause()
+    this.hero.name = readlineSync.question('Введите свое имя: ');
 
     process.stdin.resume();
     if (!this.hero.name) {
@@ -119,13 +118,13 @@ class Game {
       }
       if (this.hero.liveCount === 0) {
         this.hero.live = 'Твои никчемные жизни: 💀💀💀';
-        this.hero.die();
         sound.play('./src/sounds/gameover.wav');
+        this.hero.die();
       }
     }
 
     if (this.boomerang.position >= this.enemy.position) {
-      // sound.play("./src/sounds/enemyDie.wav");
+      sound.play("./src/sounds/enemyDie.wav");
       this.enemy.die();
       this.hero.scores += 1;
       // Обнуляем позицию бумеранга после столкновения с врагом
