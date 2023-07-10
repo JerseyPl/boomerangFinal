@@ -1,3 +1,5 @@
+const sound = require('play-sound')((opts = {}));
+
 // Бумеранг является оружием.
 // В дальнейшем можно добавить другое оружие.
 // Тогда можно будет создать класс Weapon и воспользоваться наследованием!
@@ -12,7 +14,7 @@ class Boomerang {
 
   fly() {
     const distance = 5; // Устанавливаем дистанцию полета бумеранга
-
+    sound.play('./src/sounds/vistrel.wav');
     // Запускаем бумеранг на заданное расстояние
     for (let i = 1; i <= distance; i++) {
       setTimeout(() => this.moveRight(1), 100 * i);
